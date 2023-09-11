@@ -1,0 +1,47 @@
+<data>
+    <id>12325</id>
+    <correlationId>fobar-1234</correlationId>
+    <products>
+        <product>
+            <productnumber>8d0201075e</productnumber>
+        </product>
+
+        <product>
+            <productnumber>99630211802</productnumber>
+        </product>
+
+        <product>
+            <productnumber>4241075e</productnumber>
+        </product>
+
+        <product>
+            <productnumber>2a56201075e</productnumber>
+        </product>
+
+        <product>
+            <productnumber>000000</productnumber>
+        </product>
+    </products>
+
+    <addresses>
+        <address>
+            <country>US</country>
+            <state>CA</state>
+        </address>
+
+        <address>
+            <country>CA</country>
+            <state>NS</state>
+        </address>
+
+        <address>
+            <country>MX</country>
+            <state>CDMX</state>
+        </address>
+    </addresses>
+
+    <names>
+        <name>Fred</name>
+        <name>Sally</name>
+    </names>
+</data>
