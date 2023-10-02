@@ -2,6 +2,9 @@
 ```shell
 mvn quarkus:dev 
 curl -d "{\"foo\":\"bar\"}" -X POST http://localhost:8080
+java -cp 'saxon-he-10.6.jar' net.sf.saxon.Transform -xsl:'path/to/mystylesheet.xsl' -s:'path/to/some.xml'
+
+java -cp "~/Downloads/Saxon-HE-12.3.jar" net.sf.saxon.Transform -xsl:transform.xsl -s:test.xml
 ```
 
 # code-with-quarkus

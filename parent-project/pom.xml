@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.sam.maventest</groupId>
+  <artifactId>parent-project-parent</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <packaging>pom</packaging>
+
+  <name>parent-project-parent</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>11</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+
+    <!-- plugin versions -->
+    <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
+    <maven.dependency.plugin.version>3.6.0</maven.dependency.plugin.version>
+    <maven.enforcer.plugin.version>3.4.1</maven.enforcer.plugin.version>
+    <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
+    <build.helper.maven.plugin.version>3.4.0</build.helper.maven.plugin.version>
+    <git.commit.id.maven.plugin.version>6.0.0</git.commit.id.maven.plugin.version>
+    <maven.checkstyle.plugin.version>3.3.0</maven.checkstyle.plugin.version>
+    <maven.pmd.plugin.version>3.21.0</maven.pmd.plugin.version>
+    <maven.source.plugin.version>3.3.0</maven.source.plugin.version>
+    <maven.install.plugin.version>3.1.1</maven.install.plugin.version>
+    <spotbugs.maven.plugin.version>4.7.3.6</spotbugs.maven.plugin.version>
+    <spotless.maven.plugin.version>2.40.0</spotless.maven.plugin.version>
+    <!-- dependency versions -->
+    <org.projectlombok.lombok.version>1.18.30</org.projectlombok.lombok.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>${spotless.maven.plugin.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${spotbugs.maven.plugin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.git-commit-id</groupId>
+        <artifactId>git-commit-id-maven-plugin</artifactId>
+        <version>${git.commit.id.maven.plugin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${maven.checkstyle.plugin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.plugin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>${maven.dependency.plugin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>${maven.enforcer.plugin.version}</version>
+      </dependency>
+
+      <!--
+      <dependency>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>${maven.install.plugin.version}</version>
+      </dependency>
+-->
+      <dependency>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven.jar.plugin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>${maven.pmd.plugin.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${maven.source.plugin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${build.helper.maven.plugin.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>${org.projectlombok.lombok.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+
+    <!-- https://maven.apache.org/pom.html#Plugin_Management -->
+    <pluginManagement>
+      <plugins>
+
+        <!-- https://github.com/diffplug/spotless/tree/main/plugin-maven -->
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>${spotless.maven.plugin.version}</version>
+          <configuration>
+            <encoding>${project.build.sourceEncoding}</encoding>
+            <!-- https://github.com/diffplug/spotless/tree/main/plugin-maven#java -->
+            <java>
+              <encoding>${project.build.sourceEncoding}</encoding>
+              <!-- The encoding of the Java files -->
+
+              <!-- These are the defaults, you can override if you want -->
+              <includes>
+                <include>src/main/java/**/*.java</include>
+                <include>src/test/java/**/*.java</include>
+              </includes>
+
+              <!-- https://github.com/palantir/palantir-java-format -->
+              <palantirJavaFormat>
+                <style>PALANTIR</style>
+              </palantirJavaFormat>
+
+              <indent>
+                <spaces>true</spaces>
+                <spacesPerTab>4</spacesPerTab>
+              </indent>
+
+              <importOrder></importOrder>
+
+              <removeUnusedImports>
+                <engine>google-java-format</engine>
+                <!-- optional. Defaults to `google-java-format`. Can be switched to `cleanthat-javaparser-unnecessaryimport` (e.g. to process JDK17 source files with a JDK8+ Runtime) -->
+              </removeUnusedImports>
+
+              <formatAnnotations></formatAnnotations>
+
+              <licenseHeader>
+                <content>/* FRB $YEAR */</content>
+                <!-- or <file>${project.basedir}/license-header</file> -->
+              </licenseHeader>
+            </java>
+
+            <!-- https://github.com/diffplug/spotless/tree/main/plugin-maven#maven-pom -->
+            <pom>
+              <!-- These are the defaults, you can override if you want -->
+              <includes>
+                <include>pom.xml</include>
+              </includes>
+              <!-- https://github.com/diffplug/spotless/tree/main/plugin-maven#sortpom
+                                                                           https://github.com/Ekryd/sortpom/wiki/Parameters
+                                                                      -->
+              <sortPom>
+                <nrOfIndentSpace>4</nrOfIndentSpace>
+                <expandEmptyElements>false</expandEmptyElements>
+                <keepBlankLines>false</keepBlankLines>
+                <expandEmptyElements>false</expandEmptyElements>
+                <sortExecutions>false</sortExecutions>
+                <sortModules>false</sortModules>
+                <sortProperties>true</sortProperties>
+                <sortDependencies>groupId,artifactId</sortDependencies>
+                <sortPlugins>groupId,artifactId</sortPlugins>
+                <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
+                <indentSchemaLocation>false</indentSchemaLocation>
+                <spaceBeforeCloseEmptyElement>true</spaceBeforeCloseEmptyElement>
+                <encoding>${project.build.sourceEncoding}</encoding>
+                <!-- The encoding of the pom files -->
+                <lineSeparator>${line.separator}</lineSeparator>
+                <!-- line separator to use -->
+                <expandEmptyElements>true</expandEmptyElements>
+                <!-- Should empty elements be expanded-->
+                <spaceBeforeCloseEmptyElement>false</spaceBeforeCloseEmptyElement>
+                <!-- Should a space be added inside self-closing elements-->
+                <keepBlankLines>true</keepBlankLines>
+                <!-- Keep empty lines -->
+                <nrOfIndentSpace>2</nrOfIndentSpace>
+                <!-- Indentation -->
+                <indentBlankLines>false</indentBlankLines>
+                <!-- Should empty lines be indented -->
+                <indentSchemaLocation>false</indentSchemaLocation>
+                <!-- Should schema locations be indended -->
+                <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
+                <!-- Sort order of elements: https://github.com/Ekryd/sortpom/wiki/PredefinedSortOrderProfiles-->
+                <sortProperties>false</sortProperties>
+                <!-- Sort properties -->
+                <sortModules>false</sortModules>
+                <!-- Sort modules -->
+                <sortExecutions>false</sortExecutions>
+                <!-- Sort plugin executions -->
+              </sortPom>
+            </pom>
+          </configuration>
+          <executions>
+            <execution>
+              <id>format</id>
+              <goals>
+                <goal>check</goal>
+              </goals>
+              <phase>process-sources</phase>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- https://github.com/spotbugs/spotbugs-maven-plugin
+                        https://spotbugs.readthedocs.io/en/latest/maven.html
+                        https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html
+                        https://spotbugs.readthedocs.io/en/latest/detectors.html
+                        -->
+        <plugin>
+          <groupId>com.github.spotbugs</groupId>
+          <artifactId>spotbugs-maven-plugin</artifactId>
+          <version>${spotbugs.maven.plugin.version}</version>
+          <configuration>
+            <failOnError>false</failOnError>
+          </configuration>
+          <executions>
+            <execution>
+              <id>check</id>
+              <goals>
+                <goal>check</goal>
+              </goals>
+              <phase>prepare-package</phase>
+            </execution>
+          </executions>
+
+        </plugin>
+
+        <!--  https://github.com/git-commit-id/git-commit-id-maven-plugin -->
+        <plugin>
+          <groupId>io.github.git-commit-id</groupId>
+          <artifactId>git-commit-id-maven-plugin</artifactId>
+          <version>${git.commit.id.maven.plugin.version}</version>
+          <configuration>
+            <generateGitPropertiesFile>true</generateGitPropertiesFile>
+            <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+            <includeOnlyProperties>
+              <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+              <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
+            </includeOnlyProperties>
+            <commitIdGenerationMode>full</commitIdGenerationMode>
+          </configuration>
+          <executions>
+            <execution>
+              <id>get-the-git-infos</id>
+              <goals>
+                <goal>revision</goal>
+              </goals>
+              <phase>initialize</phase>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- https://maven.apache.org/plugins/maven-checkstyle-plugin/index.html -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${maven.checkstyle.plugin.version}</version>
+          <executions>
+            <execution>
+              <id>validate</id>
+              <goals>
+                <goal>check</goal>
+              </goals>
+              <phase>validate</phase>
+              <configuration>
+                <configLocation>google_checks.xml</configLocation>
+                <!--                                <suppressionsLocation>suppressions.xml</suppressionsLocation>-->
+                <consoleOutput>true</consoleOutput>
+                <logViolationsToConsole>true</logViolationsToConsole>
+                <failsOnError>true</failsOnError>
+                <failOnViolation>true</failOnViolation>
+                <violationSeverity>warning</violationSeverity>
+                <includeTestSourceDirectory>false</includeTestSourceDirectory>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven.compiler.plugin.version}</version>
+          <configuration>
+            <source>${maven.compiler.source}</source>
+            <target>${maven.compiler.target}</target>
+            <encoding>${project.build.sourceEncoding</encoding>
+            <annotationProcessorPaths combine.children="append">
+              <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${org.projectlombok.lombok.version}</version>
+              </path>
+            </annotationProcessorPaths>
+          </configuration>
+        </plugin>
+
+        <!-- https://maven.apache.org/plugins/maven-dependency-plugin/ -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>${maven.dependency.plugin.version}</version>
+          <executions>
+            <execution>
+              <id>analyze</id>
+              <goals>
+                <goal>analyze-only</goal>
+              </goals>
+              <phase>prepare-package</phase>
+              <configuration>
+                <ignoreUnusedRuntime>true</ignoreUnusedRuntime>
+                <failOnWarning>true</failOnWarning>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- https://maven.apache.org/enforcer/enforcer-rules/index.html -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>${maven.enforcer.plugin.version}</version>
+          <executions>
+            <execution>
+              <id>enforce-versions</id>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+              <configuration>
+                <rules>
+                  <banDuplicatePomDependencyVersions></banDuplicatePomDependencyVersions>
+                  <bannedPlugins>
+                    <level>WARN</level>
+                    <excludes>
+                      <exclude>org.apache.maven.plugins:maven-verifier-plugin</exclude>
+                    </excludes>
+                    <message>Please consider using the maven-invoker-plugin
+                                            (http://maven.apache.org/plugins/maven-invoker-plugin/)!</message>
+                  </bannedPlugins>
+                  <requireJavaVersion>
+                    <version>11</version>
+                  </requireJavaVersion>
+                </rules>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!--
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>${maven.install.plugin.version}</version>
+          <configuration>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${project.artifactId}</artifactId>
+            <version>${project.version}</version>
+            <packaging>jar</packaging>
+            <file>${project.basedir}/target/${project.artifactId}-${project.version}.jar</file>
+            <generatePom>false</generatePom>
+            <pomFile>${project.basedir}/pom.xml</pomFile>
+          </configuration>
+          <executions>
+            <execution>
+              <id>install-jar-lib</id>
+              <goals>
+                <goal>install-file</goal>
+              </goals>
+              <phase>install</phase>
+            </execution>
+          </executions>
+        </plugin>
+-->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${maven.jar.plugin.version}</version>
+          <executions>
+            <execution>
+              <id>default</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+              <phase>package</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <!-- https://maven.apache.org/plugins/maven-pmd-plugin/usage.html
+                        https://www.ing.iac.es/~docs/external/java/pmd/rules/index.html
+                        -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>${maven.pmd.plugin.version}</version>
+          <configuration>
+            <!-- https://maven.apache.org/plugins/maven-pmd-plugin/examples/usingRuleSets.html#the-default-ruleset -->
+            <rulesets>
+              <ruleset>/category/java/bestpractices.xml</ruleset>
+            </rulesets>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven.source.plugin.version}</version>
+          <executions>
+            <execution>
+              <id>source</id>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
+              <phase>prepare-package</phase>
+            </execution>
+          </executions>
+
+        </plugin>
+
+        <!-- https://stackoverflow.com/a/12305409 -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>${build.helper.maven.plugin.version}</version>
+          <executions>
+            <execution>
+              <id>attach-artifacts</id>
+              <goals>
+                <goal>attach-artifact</goal>
+              </goals>
+              <phase>package</phase>
+              <configuration>
+                <artifacts>
+                  <artifact>
+                    <file>${project.basedir}/target/${project.artifactId}-${project.version}.jar</file>
+                    <type>jar</type>
+                  </artifact>
+                </artifacts>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+
+    <!-- plugins section, these plugins will auto apply / execute in child
+                         setting skip=true means it doesn't run in parent where it is not needed
+                    -->
+    <plugins>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>io.github.git-commit-id</groupId>
+        <artifactId>git-commit-id-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <!--
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+      </plugin>
+-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+
+    </plugins>
+
+  </build>
+</project>
